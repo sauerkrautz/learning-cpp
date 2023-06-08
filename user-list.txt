@@ -2,3 +2,4 @@
 1 rizqi 123
 2 rizqi 123
 3 rizqi 123
+4 newuser newpassword

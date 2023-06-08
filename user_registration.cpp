@@ -85,6 +85,20 @@ bool handle_file(std::string file_path, std::string username,
   return false;
 }
 
+std::vector<std::string> get_user_by_number(std::string file_path, int user_number) {
+  std::ifstream file(file_path, std::ios::app);
+  std::string current_line;
+  std::string user;
+
+  while(std::getline(file, current_line)) {
+    if(std::stoi(split(current_line)[0]) == user_number) {
+      user = current_line;
+    }
+  }
+
+  return split(user);
+}
+
 // getting the user number or user id **
 // int get_user_number(std::string file_path) {
 //   std::ifstream file(file_path);
@@ -108,6 +122,7 @@ int main(int argc, char *argv[]) {
   std::string file_path;
   std::string username;
   std::string password;
+  int user_number = -1;
 
   std::random_device rd;
   std::mt19937 generate(rd());
@@ -137,12 +152,20 @@ int main(int argc, char *argv[]) {
                 << "\n"
                 << "-p            password to be written to file"
                 << "\n";
+    } else if (arg == "-g") {
+      if (i + 1 <= argc) {
+        user_number = std::stoi(argv[i + 1]);
+      }
     } else if (argc < 1) {
       std::cout << "-h for help";
     }
   }
 
   handle_file(file_path, username, password);
+
+  if(user_number != -1) {
+    std::cout << get_user_by_number(file_path, user_number)[1] << std::endl;
+  }
   // std::cout << file_path << " " << username << " " << password << "\n";
 
   return 0;
